@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Tribes</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- ===================== INLINE SVG ART (no emoji) ===================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <linearGradient id="gFlame" x1="0" y1="1" x2="0" y2="0">
+   <stop offset="0" stop-color="#ff3d2e"/><stop offset=".5" stop-color="#ff8a3c"/><stop offset="1" stop-color="#ffd84d"/>
+  </linearGradient>
+  <linearGradient id="gFrost" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#c9e9ff"/><stop offset="1" stop-color="#6c7bd6"/>
+  </linearGradient>
+  <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#ffab2e"/>
+  </linearGradient>
+  <linearGradient id="gTeal" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#5ff3d6"/><stop offset="1" stop-color="#1f9e8f"/>
+  </linearGradient>
+  <radialGradient id="gGlow" cx=".5" cy=".5" r=".5">
+   <stop offset="0" stop-color="#ffb84d" stop-opacity=".9"/><stop offset="1" stop-color="#ffb84d" stop-opacity="0"/>
+  </radialGradient>
+
+  <symbol id="ic-flame" viewBox="0 0 64 64">
+   <path fill="url(#gFlame)" d="M32 4c6 10-2 15-2 22 0 5 4 8 4 13 0 6-5 9-5 9s14-2 17-15c2-9-4-15-4-15 1 6-3 9-3 9 2-9-4-18-7-23zM26 40c-4 3-6 8-4 13 1 4 5 7 10 7-6-3-8-8-6-13 1-4-1-6 0-7z"/>
+  </symbol>
+  <symbol id="ic-ward" viewBox="0 0 64 64">
+   <path fill="url(#gFrost)" d="M32 4l22 8v16c0 16-11 26-22 32C21 54 10 44 10 28V12z"/>
+   <path fill="#fff" opacity=".85" d="M32 16v32M20 26l24 12M44 26L20 38"/>
+   <path fill="none" stroke="#fff" stroke-width="2.4" opacity=".9" d="M32 16v32M20 26l24 12M44 26L20 38"/>
+  </symbol>
+  <symbol id="ic-relic" viewBox="0 0 64 64">
+   <path fill="url(#gTeal)" d="M32 4l16 12-6 40H22L16 16z"/>
+   <path fill="#fff" opacity=".35" d="M32 4l16 12-16 6-16-6z"/>
+   <path fill="#0b0b0f" opacity=".2" d="M32 22l10-6-4 40H26l-4-40z"/>
+  </symbol>
+  <symbol id="ic-land" viewBox="0 0 64 64">
+   <path fill="url(#gGold)" d="M4 52l16-30 10 16 8-14 22 28z"/>
+   <path fill="#fff" opacity=".5" d="M20 22l6 11-5 3zM38 24l6 10-6 2z"/>
+  </symbol>
+  <symbol id="ic-crest" viewBox="0 0 64 64">
+   <path fill="url(#gGold)" d="M32 4l24 6v20c0 16-12 26-24 30C20 56 8 46 8 30V10z"/>
+   <use href="#ic-flame" x="16" y="14" width="32" height="32"/>
+  </symbol>
+  <symbol id="ic-warpaint" viewBox="0 0 64 64">
+   <path fill="url(#gFlame)" d="M14 12c8 2 28 2 36 0 4 22-6 40-18 46C20 52 10 34 14 12z"/>
+   <path stroke="#0b0b0f" stroke-width="3" opacity=".35" d="M22 26v14M42 26v14"/>
+  </symbol>
+  <symbol id="ic-rekindle" viewBox="0 0 64 64">
+   <circle cx="32" cy="30" r="18" fill="url(#gGlow)"/>
+   <use href="#ic-flame" x="18" y="12" width="28" height="28"/>
+   <path fill="none" stroke="url(#gGold)" stroke-width="3" stroke-linecap="round" d="M12 50c6-4 12-4 20 0 8-4 14-4 20 0"/>
+  </symbol>
+  <symbol id="ic-cache" viewBox="0 0 64 64">
+   <rect x="8" y="22" width="48" height="30" rx="4" fill="url(#gGold)"/>
+   <path d="M8 22c0-8 8-12 24-12s24 4 24 12z" fill="#7a4a12"/>
+   <rect x="28" y="30" width="8" height="12" rx="2" fill="#3a2408"/>
+  </symbol>
+  <symbol id="ic-star" viewBox="0 0 64 64">
+   <path fill="url(#gGold)" d="M32 4l8 18 20 2-15 13 5 20-18-11-18 11 5-20L4 24l20-2z"/>
+  </symbol>
+  <symbol id="ic-referral" viewBox="0 0 64 64">
+   <circle cx="32" cy="12" r="7" fill="url(#gTeal)"/>
+   <circle cx="14" cy="48" r="7" fill="url(#gFlame)"/>
+   <circle cx="50" cy="48" r="7" fill="url(#gGold)"/>
+   <path stroke="#fff" stroke-width="3" opacity=".7" fill="none" d="M32 19l-15 24M32 19l15 24"/>
+  </symbol>
+  <symbol id="ic-drum" viewBox="0 0 64 64">
+   <ellipse cx="32" cy="20" rx="20" ry="8" fill="url(#gGold)"/>
+   <path fill="#b5651d" d="M12 20v20c0 5 9 8 20 8s20-3 20-8V20c0 5-9 8-20 8s-20-3-20-8z"/>
+   <path stroke="#fff" stroke-width="2" opacity=".5" d="M18 22l8 22M46 22l-8 22"/>
+  </symbol>
+  <symbol id="ic-wallet" viewBox="0 0 64 64">
+   <rect x="8" y="14" width="48" height="36" rx="6" fill="url(#gTeal)"/>
+   <rect x="36" y="26" width="24" height="14" rx="3" fill="#0b0b0f" opacity=".3"/>
+   <circle cx="44" cy="33" r="3" fill="#fff"/>
+  </symbol>
+  <symbol id="ic-rank" viewBox="0 0 64 64">
+   <path fill="url(#gGold)" d="M32 6l7 14 15 2-11 11 3 15-14-8-14 8 3-15L10 22l15-2z"/>
+  </symbol>
+ </defs>
+</svg>
+
+<canvas id="embers"></canvas>
+<div id="app">
+  <header id="topbar">
+    <div class="brand"><svg class="logo"><use href="#ic-flame"/></svg><span>TRIBES</span></div>
+    <div id="ageChip" class="age-chip"></div>
+  </header>
+
+  <main id="view"><div class="loader">Kindling the fire…</div></main>
+
+  <nav id="tabs">
+    <button data-tab="home" class="active"><svg><use href="#ic-flame"/></svg><span>Fire</span></button>
+    <button data-tab="tribe"><svg><use href="#ic-crest"/></svg><span>Tribe</span></button>
+    <button data-tab="lands"><svg><use href="#ic-land"/></svg><span>Lands</span></button>
+    <button data-tab="store"><svg><use href="#ic-star"/></svg><span>Store</span></button>
+    <button data-tab="bag"><svg><use href="#ic-cache"/></svg><span>Satchel</span></button>
+    <button data-tab="forge" id="forgeTab" hidden><svg><use href="#ic-rank"/></svg><span>Forge</span></button>
+  </nav>
+</div>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+{
+  "_comment": "Tribes v2 economy + rules. Every knob here is editable live by admins (@Joeldan) via the in-app Elders' Forge panel, or by hand. Loyalty = the TRIBE's shared pool (primary). Kindle Score = a member's effort/activeness (sets in-tribe rank, feeds the tribe). Ember = minor personal token. Store is cosmetic/convenience ONLY, never touches Loyalty/rank/allocation.",
+  "version": 2,
+
+  "admin": {
+    "usernames": ["joeldan"],
+    "user_ids": []
+  },
+
+  "age": {
+    "current": "fire",
+    "ages": {
+      "fire": {
+        "name": "Age of First Fire",
+        "tagline": "The tribes gather around the first flame.",
+        "decay_multiplier": 1.0,
+        "invade_cost_multiplier": 1.0,
+        "palette": ["#ff5a3c", "#ffb020", "#3ce0c8"]
+      },
+      "frost": {
+        "name": "The Long Frost",
+        "tagline": "The fires dim. Only the loyal survive the cold.",
+        "decay_multiplier": 2.0,
+        "invade_cost_multiplier": 0.6,
+        "palette": ["#8fd1ff", "#c9e9ff", "#6c7bd6"]
+      }
+    }
+  },
+
+  "ember": {
+    "checkin": 10,
+    "streak_bonus_per_day": 2,
+    "streak_bonus_cap": 40,
+    "relic_find": 25
+  },
+
+  "kindle": {
+    "_comment": "Kindle Score = a member's contribution/activeness. Sets in-tribe rank and how much they feed tribe Loyalty.",
+    "per_checkin": 12,
+    "per_streak_day": 3,
+    "streak_cap": 60,
+    "per_quest": 8,
+    "per_relic": 10,
+    "per_rekindle_given": 25,
+    "per_referral_joined": 40,
+    "decay_when_fading": 0.9
+  },
+
+  "loyalty": {
+    "_comment": "Tribe shared pool. Members feed it; Ashfall bleeds it when the tribe goes quiet.",
+    "kindle_to_loyalty": 0.5,
+    "land_hold_bonus_per_day": 200,
+    "invade_win": 500,
+    "found_seed": 100
+  },
+
+  "ashfall": {
+    "_comment": "Loyalty decay. active<=1d, cooling 2-3d, fading >=4d idle. Daily bleed grows with the fading ratio and COMPOUNDS via chill the longer neglect lasts.",
+    "cooling_after_days": 2,
+    "fading_after_days": 4,
+    "base_rate": 0.06,
+    "cooling_weight": 0.5,
+    "fading_weight": 1.0,
+    "max_daily_pct": 0.15,
+    "chill_step": 0.1,
+    "chill_cap": 2.0,
+    "high_fading_ratio": 0.34
+  },
+
+  "rekindle": {
+    "_comment": "Save a Fading kin with Stars. Halts their decay, restores Loyalty, and earns the savior Kindle + a 'Kindred Flame' badge.",
+    "stars_cost": 30,
+    "loyalty_restore": 150,
+    "savior_kindle": 25,
+    "grace_days": 3
+  },
+
+  "ranks": [
+    {"id": "ashborn",     "name": "Ash-born",   "min_pct": 0.0,  "icon": "ashborn"},
+    {"id": "emberkin",    "name": "Emberkin",   "min_pct": 0.4,  "icon": "emberkin"},
+    {"id": "flamewarden", "name": "Flamewarden","min_pct": 0.7,  "icon": "flamewarden"},
+    {"id": "pyrarch",     "name": "Pyrarch",    "min_pct": 0.9,  "icon": "pyrarch"},
+    {"id": "firstflame",  "name": "Firstflame", "min_pct": 0.98, "icon": "firstflame", "top_only": true}
+  ],
+
+  "tribe": {
+    "found_cost_stars": 0,
+    "found_min_kindle": 0,
+    "allow_wanderer": true,
+    "wanderer_kindle_penalty": 0.5
+  },
+
+  "referral": {
+    "_comment": "Bloodline: your referral tree. A joined referral boosts your Kindle and the tribe.",
+    "referrer_kindle": 40,
+    "referrer_loyalty": 60,
+    "newcomer_ember": 25
+  },
+
+  "invasion": {
+    "_comment": "Lands grant a daily Loyalty bonus + Embertide + a claimable relic-node (future NFT). Hold by staking Embertide; invade by out-staking during the contest window.",
+    "contest_window_hours": 24,
+    "cooldown_hours": 48,
+    "base_hold_cost": 1000,
+    "embertide_per_checkin": 4,
+    "embertide_per_quest": 3,
+    "embertide_per_land_per_day": 50
+  },
+
+  "tasks": [
+    {"id": "daily_checkin", "title": "Tend the Campfire", "hint": "Check in daily to keep your fire alive", "reward": 10, "kind": "checkin"},
+    {"id": "streak_3", "title": "Hold a 3-day fire", "hint": "Consistency is loyalty", "reward": 30, "kind": "streak", "target": 3},
+    {"id": "streak_7", "title": "Keep a week of fire", "hint": "Seven suns of devotion", "reward": 70, "kind": "streak", "target": 7},
+    {"id": "rekindle_kin", "title": "Rekindle a Fading kin", "hint": "Save a tribemate before their fire goes to ash", "reward": 40, "kind": "rekindle"},
+    {"id": "war_cry", "title": "Add to the War Cry", "hint": "Shape your tribe's motto", "reward": 20, "kind": "manual", "repeat": "once"},
+    {"id": "connect_wallet", "title": "Bind your TON wallet", "hint": "Link a wallet to claim your share", "reward": 50, "kind": "wallet"}
+  ],
+
+  "store": {
+    "_comment": "Telegram Stars (XTR). COSMETIC / CONVENIENCE / SOCIAL ONLY. Never grants Loyalty, Kindle, rank, land or allocation.",
+    "items": [
+      {"id": "ash_ward_1",  "section": "wards",     "title": "Ash Ward",         "desc": "Auto-saves your streak if you miss one day. Loss protection, no power gained.", "stars": 25,  "kind": "freeze",         "art": "ward"},
+      {"id": "ash_ward_3",  "section": "wards",     "title": "Ward Pack (3)",     "desc": "Three Ash Wards. Save 15 vs buying singles.", "stars": 60,  "kind": "freeze3",        "art": "ward", "badge": "best value"},
+      {"id": "eternal_7",   "section": "wards",     "title": "Eternal Ember (7)", "desc": "Never lose a streak for a week.", "stars": 120, "kind": "freeze7",        "art": "eternal"},
+      {"id": "crest_flame", "section": "identity",  "title": "Living Crest",      "desc": "An animated crest your whole tribe sees on the roster.", "stars": 60,  "kind": "cosmetic_tribe", "art": "crest"},
+      {"id": "warpaint",    "section": "identity",  "title": "War Paint",        "desc": "A glowing frame around your kin avatar. Status, not power.", "stars": 40,  "kind": "cosmetic_user",  "art": "warpaint"},
+      {"id": "rekindle_token","section": "kinship", "title": "Rekindle a Kin",    "desc": "Save a Fading tribemate. Earns you a Kindred Flame badge.", "stars": 30, "kind": "rekindle",       "art": "rekindle"},
+      {"id": "founders_cache","section": "bundles", "title": "Founder's Cache",   "desc": "Living Crest + 3 Ash Wards + War Paint + a title. 1,200-value bundle.", "stars": 299, "kind": "bundle",     "art": "cache", "badge": "limited"}
+    ],
+    "sections": [
+      {"id": "wards",    "title": "Ash Wards",   "blurb": "Never lose a hard-won streak."},
+      {"id": "kinship",  "title": "Kinship",     "blurb": "Spend on others, not yourself."},
+      {"id": "identity", "title": "Crests & Paint","blurb": "Status your tribe can see."},
+      {"id": "bundles",  "title": "Caches",       "blurb": "The founders' way in."}
+    ]
+  },
+
+  "settlement_ladder": [
+    {"level": 1,  "stage": "Campfire", "max_members": 5,     "invites_per_day": 2,   "cost": 0},
+    {"level": 2,  "stage": "Band",     "max_members": 15,    "invites_per_day": 4,   "cost": 1000},
+    {"level": 3,  "stage": "Camp",     "max_members": 40,    "invites_per_day": 7,   "cost": 4000},
+    {"level": 4,  "stage": "Hamlet",   "max_members": 100,   "invites_per_day": 12,  "cost": 12000},
+    {"level": 5,  "stage": "Village",  "max_members": 250,   "invites_per_day": 20,  "cost": 35000},
+    {"level": 6,  "stage": "Town",     "max_members": 600,   "invites_per_day": 32,  "cost": 90000},
+    {"level": 7,  "stage": "City",     "max_members": 1500,  "invites_per_day": 50,  "cost": 220000},
+    {"level": 8,  "stage": "Chiefdom", "max_members": 3000,  "invites_per_day": 80,  "cost": 500000}
+  ],
+
+  "lands": [
+    "The Great Rift", "The Sunlit Savanna", "The Endless Steppe", "The Frozen North",
+    "The River Valleys", "The Deep Forest", "The Painted Caves", "The Bone Desert"
+  ]
+}
