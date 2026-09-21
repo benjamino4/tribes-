@@ -22,7 +22,6 @@ import hashlib
 import hmac
 import json
 import os
-import sqlite3
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -32,6 +31,14 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+import psycopg2
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+def get_db_connection():
+    # Connect directly to your external Aiven instance using the URL Render provides
+    return psycopg2.connect(DATABASE_URL)
+# -------------------------------------------
 _HERE = Path(__file__).resolve().parent
 if (_HERE.parent / "frontend").is_dir():
     BASE_DIR = _HERE.parent
