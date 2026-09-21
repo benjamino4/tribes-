@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Tribes</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
+</head>
+<body>
+<div id="embers" aria-hidden="true"></div>
+
+<!-- ============ HOME / CAMPFIRE ============ -->
+<section class="screen active" id="screen-home">
+  <header class="topbar">
+    <div class="age-pill" id="agePill">Age of First Fire</div>
+    <div class="ember-badge"><span class="flame-ico">🔥</span><b id="emberTop">0</b> Ember</div>
+  </header>
+
+  <div class="campfire-wrap">
+    <div class="settlement" id="settlementVisual"></div>
+    <div class="fire" id="fire"><span class="f f1"></span><span class="f f2"></span><span class="f f3"></span><span class="logs"></span></div>
+    <div class="stage-label"><span id="stageName">Campfire</span><small id="stageMembers"></small></div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><b id="streakVal">0</b><span>Day streak</span></div>
+    <div class="stat"><b id="emberVal">0</b><span>Your Ember</span></div>
+    <div class="stat"><b id="shareVal">0%</b><span>Est. share</span></div>
+  </div>
+
+  <button class="cta" id="checkinBtn">Tend the Campfire</button>
+  <div class="heat" id="heat"></div>
+
+  <div class="card hunt-card">
+    <div class="card-head"><h3>🏹 Daily Hunt</h3><span id="huntState"></span></div>
+    <div class="bar"><i id="huntBar"></i></div>
+    <p class="muted" id="huntText">Everyone who tends the fire feeds the hunt.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h3>🧭 Quests</h3></div>
+    <div id="tasks"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h3>🗿 Relics</h3><span class="muted">Explore to uncover</span></div>
+    <div class="relics" id="relics"></div>
+  </div>
+</section>
+
+<!-- ============ TRIBE ============ -->
+<section class="screen" id="screen-tribe">
+  <header class="topbar"><h2 id="tribeName">Your Tribe</h2><div class="crest" id="tribeCrest">🔥</div></header>
+  <div class="warcry" id="warCry">“For the fire that never dies.”</div>
+
+  <div class="card hearth">
+    <div class="card-head"><h3>🔥 The Hearth</h3><span id="hearthAvg" class="muted"></span></div>
+    <div class="hearth-num"><b id="hearthBal">0</b> Loyalty in the pool</div>
+    <div class="bar"><i id="upgBar"></i></div>
+    <div class="upg-row"><span id="upgText" class="muted"></span><button class="mini" id="upgBtn">Upgrade</button></div>
+  </div>
+
+  <div class="row2">
+    <button class="soft" id="drumBtn">🥁 Beat the Drum</button>
+    <button class="soft" id="caveBtn">🎨 Paint the Cave Wall</button>
+  </div>
+
+  <div class="card"><div class="card-head"><h3>Roster</h3><span id="memCount" class="muted"></span></div><div id="roster"></div></div>
+  <div class="card"><div class="card-head"><h3>🎨 Cave Wall</h3></div><div id="caveWall"></div></div>
+</section>
+
+<!-- ============ LEADERBOARDS ============ -->
+<section class="screen" id="screen-ranks">
+  <header class="topbar"><h2>Rankings</h2></header>
+  <div class="tabs"><button class="tab active" data-board="tribes">Tribes</button><button class="tab" data-board="kin">Kin</button></div>
+  <div id="rivalBox"></div>
+  <div id="board"></div>
+</section>
+
+<!-- ============ LANDS ============ -->
+<section class="screen" id="screen-lands">
+  <header class="topbar"><h2>Ancient Lands</h2></header>
+  <p class="muted pad">Primeval lands the tribes roam. A Land glows in the color of the tribe that holds it.</p>
+  <div class="lands-grid" id="landsGrid"></div>
+</section>
+
+<!-- ============ SKY / STAR-LORE ============ -->
+<section class="screen" id="screen-sky">
+  <header class="topbar"><h2>Star-Lore</h2></header>
+  <p class="muted pad">Your tribe's constellation grows as loyalty gathers. Each star is a milestone earned.</p>
+  <div class="sky" id="sky"></div>
+  <div class="card"><div class="card-head"><h3>⭐ Store</h3><span id="starBal" class="muted"></span></div>
+    <p class="muted">Upgrades bought with Telegram Stars. Cosmetic &amp; convenience only — they never affect your rank or airdrop share.</p>
+    <div id="store"></div>
+  </div>
+</section>
+
+<!-- ============ CLAIM ============ -->
+<section class="screen" id="screen-claim">
+  <header class="topbar"><h2>Claim</h2></header>
+  <div class="claim-hero">
+    <div class="claim-share" id="claimShare">0%</div>
+    <p class="muted">If the Age ended now, your estimated share of the airdrop.</p>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>👛 TON Wallet</h3></div>
+    <p class="muted">Bind a wallet to receive your allocation. You keep custody — we only store the address.</p>
+    <div id="tonBtn"></div>
+    <div id="walletState" class="muted"></div>
+  </div>
+  <p class="muted pad tiny">v1 allocation is an off-chain estimate. The on-chain claim opens at the end of the Age.</p>
+</section>
+
+<!-- ============ NAV ============ -->
+<nav class="tabbar">
+  <button class="nav active" data-screen="home"><span>🔥</span>Fire</button>
+  <button class="nav" data-screen="tribe"><span>🏕️</span>Tribe</button>
+  <button class="nav" data-screen="ranks"><span>🏆</span>Ranks</button>
+  <button class="nav" data-screen="lands"><span>🗺️</span>Lands</button>
+  <button class="nav" data-screen="sky"><span>✨</span>Sky</button>
+  <button class="nav" data-screen="claim"><span>🎁</span>Claim</button>
+</nav>
+
+<div id="toast"></div>
+<div id="sheet" class="sheet"><div class="sheet-inner"><h3 id="sheetTitle"></h3><div id="sheetBody"></div><button class="soft" id="sheetClose">Close</button></div></div>
+
+<script src="app.js"></script>
+</body>
+</html>
