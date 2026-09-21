@@ -30,7 +30,6 @@ import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-import psycopg2
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 USE_PG = DATABASE_URL.startswith("postgres")
