@@ -34,10 +34,22 @@ from fastapi.staticfiles import StaticFiles
 import psycopg2
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+USE_PG = DATABASE_URL.startswith("postgres")
 
+if USE_PG:
+    import psycopg
+    from psycopg.rows import dict_row
+    
+    def get_db_connection():
+        # Connect to Aiven PostgreSQL using psycopg (v3) matching your requirements.txt
+        return psycopg.connect(DATABASE_URL)
+else:
+    import sqlite3
+  
 def get_db_connection():
-    # Connect directly to your external Aiven instance using the URL Render provides
-    return psycopg2.connect(DATABASE_URL)
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn
 # -------------------------------------------
 _HERE = Path(__file__).resolve().parent
 if (_HERE.parent / "frontend").is_dir():
